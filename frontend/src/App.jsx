@@ -4,17 +4,15 @@ function App() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Estado para el formulario
   const [formData, setFormData] = useState({
     title: '',
     category: '',
     imageUrl: ''
   });
 
-  // 1. Obtener la lista de juegos (usando fetch)
   const fetchGames = async () => {
     try {
-      const response = await fetch('/api/v1/games?page=0&size=12'); // Pedimos más juegos
+      const response = await fetch('/api/v1/games?page=0&size=12');
       if (!response.ok) throw new Error('Error al cargar');
       const data = await response.json();
       if (data && data.content) {
@@ -25,18 +23,15 @@ function App() {
     }
   };
 
-  // 2. Manejar cambios en el formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // 3. Enviar el formulario para añadir un nuevo juego
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { title, category, imageUrl } = formData;
 
-    // Validación básica
     if (!title || !category || !imageUrl) {
       alert("Por favor, rellena todos los campos.");
       return;
@@ -45,8 +40,10 @@ function App() {
     setLoading(true);
 
     try {
-      // Creamos la URL con los parámetros necesarios para tu backend
+
       const url = `/api/v1/games/import?slug=${encodeURIComponent(title)}&categoryName=${encodeURIComponent(category)}&imageUrl=${encodeURIComponent(imageUrl)}`;
+
+      console.log(imageUrl);
 
       const response = await fetch(url, { method: 'POST' });
 
@@ -54,7 +51,6 @@ function App() {
         throw new Error('Fallo al guardar el juego');
       }
 
-      // Limpiamos el formulario y recargamos la lista
       setFormData({ title: '', category: '', imageUrl: '' });
       fetchGames();
     } catch (e) {

@@ -30,11 +30,11 @@ public class GameRestController {
 
     // Endpoint for React find and save games
     @PostMapping("/import")
-    public ResponseEntity<Game> importGame(@RequestParam String slug, @RequestParam String categoryName, String urlImage) {
+    public ResponseEntity<Game> importGame(@RequestParam String slug, @RequestParam String categoryName, @RequestParam String imageUrl) {
         User user = userService.getOrCreateDefaultUser("Angel", "1234");
         Category category = categoryService.getOrCreateCategory(categoryName);
 
-        Game savedGame = gameService.saveGame(slug, user, category, urlImage);
+        Game savedGame = gameService.saveGame(slug, user, category, imageUrl);
         return new ResponseEntity<>(savedGame, HttpStatus.CREATED);
     }
 

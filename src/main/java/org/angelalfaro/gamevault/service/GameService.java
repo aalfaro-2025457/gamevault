@@ -24,21 +24,21 @@ public class GameService {
     private final RestTemplate restTemplate;
     private final String WIKI_API_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
-    // Agregamos el parámetro String imageUrl al final
     public Game saveGame(String slug, User user, Category category, String imageUrl) {
-        // 1. Evitar duplicados (por slug)
         Optional<Game> existing = gameRepository.findByWikiSlugAndUser(slug, user);
         if (existing.isPresent()) {
             return existing.get();
         }
 
+        System.out.println(imageUrl);
         Game game = new Game();
-        game.setTitleGame(slug);
-        game.setWikiSlug(slug);
+        game.setTitleGame(slug.replace("_"," "));
+        game.setWikiSlug(slug.replace(" ", "_"));
         game.setUser(user);
         game.setCategory(category);
 
         if (imageUrl != null && !imageUrl.isBlank()) {
+            System.out.println(imageUrl);
             game.setImageUrlGame(imageUrl);
         } else {
             game.setImageUrlGame("https://img.freepik.com/vector-gratis/diseno-carteles-juegos-retro-dibujados-mano_23-2150852630.jpg?semt=ais_hybrid&w=740&q=80");
