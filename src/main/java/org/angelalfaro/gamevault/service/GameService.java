@@ -5,6 +5,7 @@ import org.angelalfaro.gamevault.dto.WikipediaDTO;
 import org.angelalfaro.gamevault.entity.Category;
 import org.angelalfaro.gamevault.entity.Game;
 import org.angelalfaro.gamevault.entity.User;
+import org.angelalfaro.gamevault.repository.CategoryRepository;
 import org.angelalfaro.gamevault.repository.GameRepository;
 import org.angelalfaro.gamevault.repository.UserRepository;
 import org.springframework.data.domain.Pageable;
@@ -18,10 +19,11 @@ public class GameService {
 
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
+    private final CategoryService categoryService;
     private final RestTemplate restTemplate;
     private final String WIKI_API_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
-    public Game saveGame(String slug, Integer iduUser, Category category){
+    public Game saveGame(String slug, Integer iduUser, String category){
 
         try {
             // Use the api
@@ -42,6 +44,8 @@ public class GameService {
 
             game.setUser(userRepository.findById(iduUser)
                     .orElseThrow());
+
+            game.setCategory(categoryService.getOrCreateCategory(category));
 
             return gameRepository.save(game);
 
