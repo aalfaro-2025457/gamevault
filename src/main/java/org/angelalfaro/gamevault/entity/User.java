@@ -20,6 +20,9 @@ public class User {
     @Column(nullable = false)
     private String passwordUser;
 
+    @Column
+    private int statusUser;
+
     // One to many :One user have many games
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Game> myGames;
