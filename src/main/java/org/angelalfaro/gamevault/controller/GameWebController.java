@@ -24,10 +24,8 @@ public class GameWebController {
 
     @GetMapping("/games")
     public String listGames(Model model, Pageable pageable) {
-        // Obtenemos un usuario por defecto para las pruebas
         User defaultUser = userService.getOrCreateDefaultUser("Angel", "1234");
 
-        // Usamos Slice para la lista
         Slice<Game> gameSlice = gameService.listUserGames(defaultUser.getIdUser(), pageable);
 
         model.addAttribute("games", gameSlice.getContent());

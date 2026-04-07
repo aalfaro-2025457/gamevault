@@ -41,7 +41,7 @@ public class GameRestController {
     // Endpoint for the infinite scroll on React
     @GetMapping
     public ResponseEntity<Slice<Game>> getGamesApi(
-            @PageableDefault(size = 10, page = 0) Pageable pageable) { // Agrega @PageableDefault
+            @PageableDefault(size = 10, page = 0) Pageable pageable) {
         User user = userService.getOrCreateDefaultUser("Angel", "1234");
         return ResponseEntity.ok(gameService.listUserGames(user.getIdUser(), pageable));
     }

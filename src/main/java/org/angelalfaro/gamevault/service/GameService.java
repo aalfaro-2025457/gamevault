@@ -22,7 +22,6 @@ public class GameService {
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final RestTemplate restTemplate;
-    private final String WIKI_API_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
     public Game saveGame(String slug, User user, Category category, String imageUrl) {
         Optional<Game> existing = gameRepository.findByWikiSlugAndUser(slug, user);

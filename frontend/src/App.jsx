@@ -67,7 +67,6 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      {/* Barra de navegación elegante */}
       <nav class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -82,7 +81,6 @@ function App() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* Sección del Formulario - Estilo Tarjeta Oscura */}
         <section className="bg-card p-8 rounded-2xl border border-gray-800 shadow-xl mb-12">
           <h2 className="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
             <span className="text-red-500">➕</span> Añadir Nuevo Título
@@ -133,7 +131,7 @@ function App() {
           </form>
         </section>
 
-        {/* Sección de la Galería - Estilo Póster de Película */}
+
         <section>
           <h2 className="text-3xl font-bold text-white mb-8 tracking-tight">Mi Bóveda de Juegos</h2>
 
