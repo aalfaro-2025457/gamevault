@@ -1,5 +1,6 @@
 package org.angelalfaro.gamevault.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,5 +24,10 @@ public class Game {
 
     @Column
     private int status; // 0 = disable , 1 = enabled , 2 = playing , 3 = finished
+
+    @JsonIgnoreProperties("category")
+    @ManyToOne
+    @JoinColumn(name = "idCategory")
+    private Category category;
 
 }
