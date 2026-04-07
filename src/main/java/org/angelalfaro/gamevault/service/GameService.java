@@ -5,13 +5,14 @@ import org.angelalfaro.gamevault.dto.WikipediaDTO;
 import org.angelalfaro.gamevault.entity.Category;
 import org.angelalfaro.gamevault.entity.Game;
 import org.angelalfaro.gamevault.entity.User;
-import org.angelalfaro.gamevault.repository.CategoryRepository;
 import org.angelalfaro.gamevault.repository.GameRepository;
 import org.angelalfaro.gamevault.repository.UserRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,18 +24,26 @@ public class GameService {
     private final RestTemplate restTemplate;
     private final String WIKI_API_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
-    public Game saveGame(String slug, User user, Category category) {
+    // Agregamos el parámetro String imageUrl al final
+    public Game saveGame(String slug, User user, Category category, String imageUrl) {
+        // 1. Evitar duplicados (por slug)
+        Optional<Game> existing = gameRepository.findByWikiSlugAndUser(slug, user);
+        if (existing.isPresent()) {
+            return existing.get();
+        }
+
         Game game = new Game();
-        game.setTitleGame(slug.replace("_", " "));
+        game.setTitleGame(slug);
         game.setWikiSlug(slug);
         game.setUser(user);
         game.setCategory(category);
-        // Agregamos un bloque try por si Wikipedia falla, que no muera el server
-        try {
-            // ... lógica de restTemplate ...
-        } catch (Exception e) {
-            System.out.println("Error Wikipedia, pero guardamos igual.");
+
+        if (imageUrl != null && !imageUrl.isBlank()) {
+            game.setImageUrlGame(imageUrl);
+        } else {
+            game.setImageUrlGame("https://img.freepik.com/vector-gratis/diseno-carteles-juegos-retro-dibujados-mano_23-2150852630.jpg?semt=ais_hybrid&w=740&q=80");
         }
+
         return gameRepository.save(game);
     }
 

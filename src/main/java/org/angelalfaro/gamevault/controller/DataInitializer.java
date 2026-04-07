@@ -19,16 +19,15 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Crear usuario y categorías base
         User admin = userService.getOrCreateDefaultUser("Angel", "password123");
         Category rpg = categoryService.getOrCreateCategory("RPG");
         Category action = categoryService.getOrCreateCategory("Action");
 
-        // Importar un par de juegos de Wikipedia automáticamente
+
         try {
-            gameService.saveGame("The_Legend_of_Zelda:_Breath_of_the_Wild", admin, rpg);
-            gameService.saveGame("Elden_Ring", admin, rpg);
-            gameService.saveGame("God_of_War_Ragnarök", admin, action);
+            gameService.saveGame("The_Legend_of_Zelda:_Breath_of_the_Wild", admin, rpg,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVr96thWMbxyfSw-V8uUgv381QlsMLmyg04Q&s");
+            gameService.saveGame("Elden_Ring", admin, rpg,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsyNmuTCej_baJF7_ZxwgBDXPgndwkI7r2mA&s");
+            gameService.saveGame("God_of_War_Ragnarök", admin, action,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVq43klv5Q8ubFi2KHQMW7FilQrJpeClXN7g&s");
         } catch (Exception e) {
             System.out.println("Nota: No se pudieron cargar datos iniciales (posible firewall o error de API)");
         }
