@@ -12,6 +12,6 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
     Slice<Game> findByTitleGameContainingContainingIgnoreCase(String title, Pageable pageable);
 
     // To find the lis of games from a user
-    Slice<Game> findByUserId(Integer idUser);
+    Slice<Game> findByUserId(Integer idUser, Pageable pageable);
 
 }
