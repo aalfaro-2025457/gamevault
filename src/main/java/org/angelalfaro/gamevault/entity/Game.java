@@ -14,16 +14,16 @@ public class Game {
     private Integer idGame;
 
     @Column(nullable = false)
-    private String title;
+    private String titleGame;
 
     @Column(name = "wikiSlug", unique = true)
     private String wikiSlug; // Example: "The_Legend_of_Zelda"
 
     @Column(name = "image_url", length = 1000)
-    private String imageUrl; // the url of the image
+    private String imageUrlGame; // the url of the image
 
     @Column
-    private int status; // 0 = disable , 1 = enabled , 2 = playing , 3 = finished
+    private int statusGame; // 0 = disable , 1 = enabled , 2 = playing , 3 = finished
 
     @JsonIgnoreProperties("user")
     @ManyToOne
