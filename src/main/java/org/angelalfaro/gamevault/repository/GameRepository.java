@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
-    Slice<Game> findByTitleGameContainingContainingIgnoreCase(String title, Pageable pageable);
+    Slice<Game> findByTitleGameContainingIgnoreCase(String title, Pageable pageable);
 
     // To find the lis of games from a user
-    Slice<Game> findByUserId(Integer idUser, Pageable pageable);
+    Slice<Game> findByUser_IdUser(Integer idUser, Pageable pageable);
 
 }

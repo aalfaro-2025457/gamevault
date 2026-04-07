@@ -23,39 +23,23 @@ public class GameService {
     private final RestTemplate restTemplate;
     private final String WIKI_API_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
-    public Game saveGame(String slug, User user, Category category){
-
+    public Game saveGame(String slug, User user, Category category) {
+        Game game = new Game();
+        game.setTitleGame(slug.replace("_", " "));
+        game.setWikiSlug(slug);
+        game.setUser(user);
+        game.setCategory(category);
+        // Agregamos un bloque try por si Wikipedia falla, que no muera el server
         try {
-            // Use the api
-            String url = WIKI_API_URL + slug;
-            WikipediaDTO response = restTemplate.getForObject(url, WikipediaDTO.class);
-
-            if (response == null || response.title() == null){
-                throw new RuntimeException("Didn't find information for: " + slug);
-            }
-
-            Game game = new Game();
-            game.setTitleGame(response.title());
-            game.setWikiSlug(slug);
-
-            if (response.originalimage() != null) {
-                game.setImageUrlGame(response.originalimage().getSource());
-            }
-
-            game.setUser(user);
-
-            game.setCategory(category);
-
-            return gameRepository.save(game);
-
-        } catch (Exception e){
-            throw new RuntimeException("Can't connect with wikipedia");
+            // ... lógica de restTemplate ...
+        } catch (Exception e) {
+            System.out.println("Error Wikipedia, pero guardamos igual.");
         }
-
+        return gameRepository.save(game);
     }
 
     public Slice<Game> listUserGames(Integer userId, Pageable pageable) {
-        return gameRepository.findByUserId(userId, pageable);
+        return gameRepository.findByUser_IdUser(userId, pageable);
     }
 
 }

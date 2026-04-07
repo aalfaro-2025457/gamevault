@@ -1,5 +1,6 @@
 package org.angelalfaro.gamevault.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class User {
 
     // One to many :One user have many games
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Game> myGames;
 
 }

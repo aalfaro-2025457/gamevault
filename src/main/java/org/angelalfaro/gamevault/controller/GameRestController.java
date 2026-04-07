@@ -8,6 +8,8 @@ import org.angelalfaro.gamevault.service.GameService;
 import org.angelalfaro.gamevault.service.UserService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,19 +28,20 @@ public class GameRestController {
         this.categoryService = categoryService;
     }
 
-    // Endpoint para que React busque y guarde un juego de Wikipedia
+    // Endpoint for React find and save games
     @PostMapping("/import")
     public ResponseEntity<Game> importGame(@RequestParam String slug, @RequestParam String categoryName) {
         User user = userService.getOrCreateDefaultUser("Angel", "1234");
         Category category = categoryService.getOrCreateCategory(categoryName);
 
         Game savedGame = gameService.saveGame(slug, user, category);
-        return ResponseEntity.ok(savedGame);
+        return new ResponseEntity<>(savedGame, HttpStatus.CREATED);
     }
 
-    // Endpoint para el "Infinite Scroll" en React
+    // Endpoint for the infinite scroll on React
     @GetMapping
-    public ResponseEntity<Slice<Game>> getGamesApi(Pageable pageable) {
+    public ResponseEntity<Slice<Game>> getGamesApi(
+            @PageableDefault(size = 10, page = 0) Pageable pageable) { // Agrega @PageableDefault
         User user = userService.getOrCreateDefaultUser("Angel", "1234");
         return ResponseEntity.ok(gameService.listUserGames(user.getIdUser(), pageable));
     }
