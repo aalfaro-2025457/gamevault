@@ -25,9 +25,14 @@ public class Game {
     @Column
     private int status; // 0 = disable , 1 = enabled , 2 = playing , 3 = finished
 
+    @JsonIgnoreProperties("user")
+    @ManyToOne
+    @JoinColumn(name = "idUser", foreignKey = @ForeignKey(name = "FK_id_user"))
+    private User user;
+
     @JsonIgnoreProperties("category")
     @ManyToOne
-    @JoinColumn(name = "idCategory")
+    @JoinColumn(name = "idCategory", foreignKey = @ForeignKey(name = "FK_id_category"))
     private Category category;
 
 }
