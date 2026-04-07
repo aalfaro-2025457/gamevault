@@ -23,7 +23,7 @@ public class GameService {
     private final RestTemplate restTemplate;
     private final String WIKI_API_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
-    public Game saveGame(String slug, Integer iduUser, String category){
+    public Game saveGame(String slug, User user, Category category){
 
         try {
             // Use the api
@@ -42,10 +42,9 @@ public class GameService {
                 game.setImageUrlGame(response.originalimage().getSource());
             }
 
-            game.setUser(userRepository.findById(iduUser)
-                    .orElseThrow());
+            game.setUser(user);
 
-            game.setCategory(categoryService.getOrCreateCategory(category));
+            game.setCategory(category);
 
             return gameRepository.save(game);
 

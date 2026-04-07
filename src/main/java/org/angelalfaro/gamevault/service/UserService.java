@@ -14,11 +14,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     // Method to get or create a user
-    public User getOrCreateDefaultUser(String username) {
+    public User getOrCreateDefaultUser(String username, String password) {
         return userRepository.findByUsernameUser(username)
                 .orElseGet(() -> {
                     User newUser = new User();
                     newUser.setUsernameUser(username);
+                    newUser.setPasswordUser(password);
                     return userRepository.save(newUser);
                 });
     }
