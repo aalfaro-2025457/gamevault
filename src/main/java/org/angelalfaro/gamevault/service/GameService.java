@@ -50,4 +50,16 @@ public class GameService {
         return gameRepository.findByUser_IdUser(userId, pageable);
     }
 
+    public void deleteGame(Integer id) {
+        gameRepository.deleteById(id);
+    }
+
+    public Game getGameById(Integer id) {
+        return gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+    }
+
+    public Game saveUpdatedGame(Game game){
+        return gameRepository.save(game);
+    }
+
 }

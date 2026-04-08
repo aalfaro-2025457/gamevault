@@ -12,10 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -51,4 +48,26 @@ public class GameWebController {
         
         return "redirect:/admin/games";
     }
+
+    @GetMapping("/games/delete/{id}")
+    public String deleteGame(@PathVariable Integer id) {
+        gameService.deleteGame(id);
+        return "redirect:/admin/games";
+    }
+
+    // Load the edit form
+    @PostMapping("/games/update/{id}")
+    public String updateGame(@PathVariable Integer id,
+                             @RequestParam String title,
+                             @RequestParam String categoryName,
+                             @RequestParam String imageUrl) {
+        Game game = gameService.getGameById(id);
+        game.setTitleGame(title);
+        game.setImageUrlGame(imageUrl);
+        game.setCategory(categoryService.getOrCreateCategory(categoryName));
+
+        gameService.saveUpdatedGame(game);
+        return "redirect:/admin/games";
+    }
+
 }
